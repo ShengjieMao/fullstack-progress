@@ -6,10 +6,10 @@ const Header = ({ course }) => {
   );
 };
 
-const Part = ({ part, exercises }) => {
+const Part = ({ parts }) => {
   return (
     <p>
-      {part} {exercises}
+      {parts.part} {parts.exercises}
     </p>
   );
 };
@@ -18,7 +18,7 @@ const Content = ({ parts }) => {
   return (
     <div>
       {parts.map((part, index) => (
-        <Part key={index} part={part.part} exercises={part.exercises} />
+        <Part key={index} parts={part} />
       ))}
     </div>
   );
