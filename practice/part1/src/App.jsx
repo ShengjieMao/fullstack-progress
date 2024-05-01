@@ -83,7 +83,7 @@ const App = () => {
 };
 */
 
-// passing state to child component
+/* passing state to child component
 const Display = ({ counter }) => <div>{counter}</div>;
 const Button = ({ onSmash, text }) => <button onClick={onSmash}>{text}</button>;
 
@@ -107,5 +107,95 @@ const App = () => {
     </div>
   );
 };
+*/
+
+// more complex state
+// conditional rendering
+const History = (props) => {
+  if (props.allClicks.length === 0) {
+    return <div>the app is used by pressing the buttons</div>;
+  }
+  return <div>button press history: {props.allClicks.join(" ")}</div>;
+};
+
+const Button = ({ handleClick, text }) => (
+  <button onClick={handleClick}>{text}</button>
+);
+
+const App = () => {
+  const [left, setLeft] = useState(0);
+  const [right, setRight] = useState(0);
+  const [allClicks, setAll] = useState([]); // remember every click occurred in the app
+
+  /* object spread syntax
+
+  const handleLeftClick = () => {
+    const newClicks = {
+      left: clicks.left + 1,        <-- ...clicks, copied all of the properties of the clicks object
+      right: clicks.right
+    }
+    setClicks(newClicks)
+  }
+  */
+
+  const handleLeftClick = () => {
+    setAll(allClicks.concat("L"));
+    setLeft(left + 1);
+  };
+
+  const handleRightClick = () => {
+    setAll(allClicks.concat("R"));
+    setRight(right + 1);
+  };
+
+  return (
+    <div>
+      {left}
+      <Button handleClick={handleLeftClick} text="left" />
+      <Button handleClick={handleRightClick} text="right" />
+      {right}
+      <History allClicks={allClicks} />
+    </div>
+  );
+};
+
+/* function returns a function
+const App = () => {
+  const [value, setValue] = useState(10)
+
+  const setToValue = (newValue) => () => {
+    console.log('value now', newValue)  // print the new value to console
+    setValue(newValue)
+  }
+  // method 1:
+  return (
+    <div>
+      {value}
+
+      <button onClick={setToValue(1000)}>thousand</button>
+      <button onClick={setToValue(0)}>reset</button>
+      <button onClick={setToValue(value + 1)}>increment</button>
+    </div>
+  )
+
+  // method 2:
+  return (
+    <div>
+      {value}
+      <button onClick={() => setToValue(1000)}>
+        thousand
+      </button>
+      <button onClick={() => setToValue(0)}>
+        reset
+      </button>
+      <button onClick={() => setToValue(value + 1)}>
+        increment
+      </button>
+    </div>
+  )
+  
+  
+}
+*/
 
 export default App;
